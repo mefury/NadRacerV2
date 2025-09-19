@@ -37,7 +37,7 @@
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/NadRacer.git"
+    "url": "git+https://github.com/mefury/NadRacerV2.git"
   },
   "workspaces": [
     "client",

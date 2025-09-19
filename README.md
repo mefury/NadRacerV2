@@ -36,8 +36,8 @@ NadRacer/
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
-   cd NadRacer
+   git clone https://github.com/mefury/NadRacerV2.git
+   cd NadRacerV2
    ```
 
 2. **Install dependencies**
