@@ -1,0 +1,46 @@
+{
+  "name": "nad-racer-monorepo",
+  "version": "1.0.0",
+  "description": "NadRacer - Fullstack 3D space racing game with blockchain integration",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "cd client && npm run dev",
+    "dev:server": "cd server && npm run dev",
+    "build": "npm run build:client",
+    "build:client": "cd client && npm run build",
+    "start": "npm run start:server",
+    "start:server": "cd server && npm start",
+    "install:all": "npm install && cd client && npm install && cd ../server && npm install",
+    "clean": "rimraf client/node_modules server/node_modules client/dist",
+    "test": "concurrently \"npm run test:client\" \"npm run test:server\"",
+    "test:client": "cd client && npm test",
+    "test:server": "cd server && npm test",
+    "lint": "npm run lint:client",
+    "lint:client": "cd client && npm run lint"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.5"
+  },
+  "keywords": [
+    "3d-game",
+    "racing",
+    "blockchain",
+    "react",
+    "nodejs",
+    "three.js",
+    "web3",
+    "monad"
+  ],
+  "author": "MEFURY",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/NadRacer.git"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ]
+}
