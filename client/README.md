@@ -1,56 +1,125 @@
-# NAD RACER
+# NadRacer Client 🚀
 
-![NAD RACER](public/preview.png)
+The frontend client for NadRacer - a 3D space racing game with blockchain integration.
 
-A high-speed racing game built for the "Break Monad" event, powered by the Monad blockchain. Race through the cosmic circuits, collect tokens, and compete for the highest score while pushing the boundaries of decentralized gaming.
+## 🎮 Features
 
-## 🎮 Game Features
+- **3D Graphics**: Immersive WebGL-powered racing experience using Three.js and OGL
+- **Web3 Authentication**: Privy-powered wallet integration
+- **Modern UI**: Beautiful interface built with React 19 and Tailwind CSS
+- **Blockchain Integration**: Monad blockchain integration for leaderboards
+- **Real-time Racing**: Smooth 3D racing mechanics and controls
+- **Audio System**: Dynamic sound effects and background music
 
-- **Fast-Paced Racing**: Navigate through an endless cosmic track filled with obstacles and challenges
-- **Token Collection**: Earn NP (Nad Points) tokens while racing
-- **Multiple Ships**: Choose between different ship designs with unique visual styles
-- **Global Leaderboard**: Compete with other players for the highest score
-- **Blockchain Integration**: Built on Monad Testnet for decentralized gaming experience
+## 🛠️ Tech Stack
 
-## 🕹️ Controls
+- **React 19** - Latest React features with concurrent rendering
+- **Vite** - Lightning-fast build tool and dev server
+- **Three.js** - 3D graphics library
+- **OGL** - Lightweight WebGL library
+- **Tailwind CSS** - Utility-first CSS framework
+- **Privy** - Web3 authentication
+- **Radix UI** - Accessible component primitives
+- **Framer Motion** - Smooth animations
 
-- **Movement**:
-  - Left Arrow / A: Move left
-  - Right Arrow / D: Move right
-- **Boost**:
-  - Space Bar / W: Activate boost
-- **Mobile**:
-  - Touch controls available for mobile devices
+## 🚀 Quick Start
 
-## 🎯 Gameplay
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
 
-1. **Connect Wallet**: Use your web3 wallet to connect to the game
-2. **Register**: Create your pilot profile
-3. **Select Ship**: Choose your preferred ship design
-4. **Race**: Navigate through obstacles, collect tokens, and aim for high scores
-5. **Compete**: Your highest scores are recorded on the global leaderboard
+### Installation
 
-## 🏆 Scoring System
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/mefury/NadRacerV2-Client.git
+   cd NadRacerV2-Client
+   ```
 
-- Survive longer to increase your score
-- Collect NP tokens during the race
-- Avoid obstacles to maintain your health
-- Use boost strategically to achieve higher scores
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## 🔧 Technical Stack
+3. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your API keys and configuration
+   ```
 
-- React.js
-- Three.js
-- TailwindCSS
-- Web3 Integration
-- Monad Blockchain
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
 
-## 🎵 Credits
+5. **Open your browser**
+   - Visit: http://localhost:5173
 
-- Ship Models: "space ship" by [yanix](https://skfb.ly/LzKz) (CC BY 4.0)
-- Music: [TurtleBeats](https://pixabay.com/users/turtlebeats-46526702/) from Pixabay
-- Development: [@meefury](https://x.com/meefury)
+## 📝 Scripts
 
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run preview  # Preview production build
+npm run lint     # Run ESLint
+npm test         # Run tests
+```
 
+## 🔧 Environment Variables
 
-Built with ❤️ for the Monad community
+Copy `.env.example` to `.env` and configure:
+
+```env
+VITE_PRIVY_APP_ID=your_privy_app_id_here
+VITE_MONAD_APP_ID=your_monad_app_id_here
+VITE_MONAD_USERNAME_API=https://www.monadclip.fun
+VITE_LEADERBOARD_GAME_ID=21
+VITE_CORS_PROXY_URL=https://api.allorigins.win/raw
+VITE_API_KEY=your_api_key_here
+VITE_API_BASE_URL= # e.g., https://api.nadracer.com (leave empty to use same-origin)
+```
+
+## 🏗️ Build
+
+To build for production:
+
+```bash
+npm run build
+```
+
+The build artifacts will be stored in the `dist/` directory.
+
+## 🎯 Game Controls
+
+- **Arrow Keys / WASD**: Navigate spaceship
+- **Mouse**: Camera control
+- **Space**: Boost (if available)
+
+## 📱 Deployment
+
+This client can be deployed to any static hosting service:
+
+- **Vercel**: `vercel --prod`
+- **Netlify**: Drag and drop `dist/` folder
+- **GitHub Pages**: Enable in repository settings
+- **Railway**: Connect repository and deploy
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under UNLICENSED.
+
+## 👨‍💻 Author
+
+**MEFURY**
+
+---
+
+**Happy Racing! 🏁**

@@ -8,7 +8,7 @@ import * as THREE from "three"; // THREE.js for 3D rendering
 // AudioSystem import removed
 // eslint-disable-next-line no-unused-vars
 import { CONFIG, resetGameState, spawnObstacle, spawnCoins, updateShipMovement, handleCollisions, applyBlinkEffect, spawnNewObjects, updateObstacleAnimations, updateCoinAnimations } from './racingLogic.js';
-import { createSpeederShip, createBumbleShip, addEngineEffects } from './shipModels.js'; // Import custom ship model creators
+import { createSpeederShip, addEngineEffects } from './shipModels.js'; // Import Speeder ship model creator
 
 // RacingScene component renders the 3D game scene and handles animation loop
 function RacingScene({ score, setScore, setHealth, health, endGame, gameState, controlsRef, selectedShip, onCoinCollect, onObstacleHit }) {
@@ -228,28 +228,6 @@ function RacingScene({ score, setScore, setHealth, health, endGame, gameState, c
         rocketGroup.add(shipModel);
         rocketGroup.castShadow = true;
         modelLoadedRef.current = true;
-      } else if (shipConfig.SHIP_TYPE === 'bumble') {
-        const shipModel = createBumbleShip();
-        console.log("Created custom Bumble ship model");
-        
-        // Apply scaling from config
-        shipModel.scale.set(shipConfig.SCALE, shipConfig.SCALE, shipConfig.SCALE);
-        
-        // Add engine exhaust effects
-        addEngineEffects(shipModel, 'bumble');
-        console.log("Added engine exhaust effects to Bumble ship");
-        
-        // Store original materials for blinking effect
-        shipModel.traverse((child) => {
-          if (child.isMesh && child.material) {
-            originalMaterialsRef.current.set(child, child.material.clone());
-          }
-        });
-        
-        // Add the ship model to the rocket group
-        rocketGroup.add(shipModel);
-        rocketGroup.castShadow = true;
-        modelLoadedRef.current = true;
       } else {
         console.error("Unknown ship type:", shipConfig.SHIP_TYPE);
       }
@@ -387,7 +365,7 @@ function RacingScene({ score, setScore, setHealth, health, endGame, gameState, c
         if (collisionResult.blinkCount > 0) {
           blinkCount = collisionResult.blinkCount;
         }
-        
+
         // Apply the blinking effect to the ship
         blinkCount = applyBlinkEffect(rocketGroup, blinkCount, originalMaterialsRef);
         
@@ -458,6 +436,7 @@ function RacingScene({ score, setScore, setHealth, health, endGame, gameState, c
 
         // Log object counts for debugging
         console.log("Obstacles:", obstaclesRef.current.length, "Coins:", coinsRef.current.length);
+
 
         // Log if a coin was recently collected (debug only)
         if (score > prevScoreRef.current) {

@@ -1,178 +1,253 @@
-# Nad Racer Backend - Score Submission System
+# NadRacer Server 🚀
 
-Backend server for Nad Racer that handles secure blockchain score submissions using the Monad testnet.
+The backend server for NadRacer - a 3D space racing game with blockchain integration and secure leaderboard system.
 
-## Features
+## 🎮 Features
 
-- ✅ **Secure Score Submissions** - Server-side validation prevents cheating
-- ✅ **Onchain Storage** - All scores stored permanently on Monad blockchain
-- ✅ **Rate Limiting** - Prevents abuse and spam
-- ✅ **Input Validation** - Comprehensive security checks
-- ✅ **Player Data Retrieval** - Fetch individual player statistics
+- **Blockchain Integration**: Secure score submission using Monad blockchain via Viem
+- **Web3 Authentication**: Privy-powered wallet authentication and verification
+- **Advanced Anti-Cheat**: Multi-layered validation system with rate limiting
+- **RESTful API**: Clean, documented endpoints for seamless game integration
+- **Security-First**: Helmet security middleware, CORS protection, and input validation
+- **Rate Limiting**: Comprehensive protection against spam, abuse, and cheating attempts
+- **Session Management**: Secure game session tracking and validation
 
-## Setup
+## 🛠️ Tech Stack
 
-### 1. Install Dependencies
+- **Node.js 18+** - Runtime environment
+- **Express.js** - Web application framework
+- **Viem** - Ethereum library for blockchain interactions
+- **Helmet** - Security middleware collection
+- **CORS** - Cross-origin resource sharing
+- **Express Rate Limit** - API rate limiting and protection
+- **dotenv** - Environment variable management
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
+- A Monad wallet with game admin privileges
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/mefury/NadRacerV2-Server.git
+   cd NadRacerV2-Server
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your actual configuration values
+   ```
+
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Test the server**
+   - Health check: http://localhost:3001/health
+   - API documentation: Check endpoints section below
+
+## 📝 Scripts
+
 ```bash
-cd backend
-npm install
+npm run dev     # Start development server with nodemon
+npm start       # Start production server
+npm test        # Run tests (placeholder)
 ```
 
-### 2. Environment Configuration
-```bash
-cp .env.example .env
-```
+## 🔧 Environment Variables
 
-Edit `.env` with your configuration:
+Copy `.env.example` to `.env` and configure the following:
+
+### Core Configuration
 ```env
-# Server Configuration
-PORT=3001
-NODE_ENV=development
-FRONTEND_URL=http://localhost:5173
+PORT=3001                    # Server port
+NODE_ENV=development         # Environment mode
+FRONTEND_URL=http://localhost:5173  # Primary client URL for CORS
+API_KEY=your_api_key_here    # Client authentication
 
-# Game Configuration (set after game registration)
-GAME_ADDRESS=0x0000000000000000000000000000000000000000
-
-# Blockchain Configuration
-# Private key for the game server wallet (required for score submissions)
-PRIVATE_KEY=0x0000000000000000000000000000000000000000000000000000000000000000
+# CORS Configuration
+CORS_ALLOWED_ORIGINS=https://your-app.dokploy.com,https://your-domain.com
 ```
 
-### 3. Game Registration (Required)
-
-Before the backend can submit scores, the game must be registered on the leaderboard contract:
-
-```javascript
-// This is done by the contract admin, not in code
-await contract.registerGame(
-  GAME_ADDRESS,     // Your game's address
-  "Nad Racer",      // Game name
-  "image_url",      // Game image URL
-  "game_url"        // Game website URL
-);
+### Blockchain & Web3
+```env
+PRIVY_APP_ID=your_privy_app_id
+PRIVY_SECRET_KEY=your_privy_secret_key
+PRIVATE_KEY=your_wallet_private_key
+GAME_ADDRESS=0x...           # Smart contract address
+MONAD_RPC_URL=https://testnet-rpc.monad.xyz  # RPC endpoint
 ```
 
-After registration, set the `GAME_ADDRESS` in your `.env` file.
+### Rate Limiting & Anti-Cheat
+```env
+RATE_LIMIT_GENERAL_WINDOW_MS=900000
+RATE_LIMIT_GENERAL_MAX=100
+MAX_REASONABLE_SCORE=10000
+# See .env.example for complete configuration
+```
 
-### 4. Wallet Setup
+## 🌐 External APIs
 
-The server needs a wallet with `GAME_ROLE` to submit scores:
+Optionally configure external API endpoints via env:
+```env
+# Leaderboard API base URL (no trailing slash needed in code)
+LEADERBOARD_API_URL=https://www.monadclip.fun/api/leaderboard
+```
 
-1. Create a new wallet for the server
-2. Fund it with some MON for gas fees
-3. Have the contract admin grant it `GAME_ROLE`
-4. Set the private key in `.env`
-
-## API Endpoints
+## 📚 API Endpoints
 
 ### Health Check
 ```http
-GET /api/health
+GET /health
+Response: { status: "ok", timestamp: "..." }
 ```
 
-### Get Player Data
+### Leaderboard
 ```http
-GET /api/player/:playerAddress
+GET /api/leaderboard?limit=10&offset=0
+Response: { success: true, data: [...], total: 100 }
 ```
 
-### Submit Score
+### Score Submission
 ```http
 POST /api/submit-score
-Content-Type: application/json
-
-{
-  "playerAddress": "0x...",
-  "score": 1250,
-  "transactions": 1
+Headers: 
+  x-api-key: your_api_key
+  x-privy-token: user_privy_token
+Body: {
+  score: 1000,
+  walletAddress: "0x...",
+  transactions: 50,
+  username: "player1"
 }
 ```
 
-### Development Notes
-- The backend handles secure score submissions to blockchain
-- Player data can be retrieved individually via player address
-- All scores are accumulated on the Monad blockchain
-
-## Running the Server
-
-### Development
-```bash
-npm run dev
+### User Stats
+```http
+GET /api/user/:walletAddress
+Response: { success: true, data: { ... } }
 ```
 
-### Production
-```bash
-npm start
+## 🔒 Security Features
+
+- **Multi-layer Rate Limiting**: Per-IP and per-wallet limits
+- **Score Validation**: Advanced anti-cheat algorithms
+- **Session Management**: Secure game session tracking
+- **Input Sanitization**: All inputs validated and sanitized
+- **Flexible CORS Protection**: Environment-configurable allowed origins
+- **Security Headers**: Helmet middleware for enhanced security
+
+### CORS & CSP Configuration
+
+The server supports flexible CORS configuration through environment variables:
+
+- `FRONTEND_URL`: Primary client URL (e.g., production domain)
+- `CORS_ALLOWED_ORIGINS`: Additional allowed origins (comma-separated)
+- Cookies are not used and CORS credentials are disabled. If both variables are left empty,
+  the server will allow any origin. This is acceptable because authentication uses API keys
+  (headers), not cookies.
+
+Examples:
+```env
+# Strict (recommended for prod):
+FRONTEND_URL=https://game.example.com
+CORS_ALLOWED_ORIGINS=https://preview.example.com
+
+# Permissive (ok when no cookies):
+FRONTEND_URL=
+CORS_ALLOWED_ORIGINS=
 ```
 
-## Architecture
+### CSP via Environment Variables
 
-```
-Frontend → Backend API → Monad Blockchain
-    ↓         ↓             ↓
-Display  Validate &   Store permanently
-data     submit scores   onchain
-```
-
-**Note**: Leaderboards are handled directly by the frontend using the Monad Games API.
-
-### Security Features
-
-- **Server-side validation** - Prevents client-side score manipulation
-- **Rate limiting** - 100 requests/15min, 10 score submissions/minute
-- **Input validation** - Address format, score ranges, data types
-- **CORS protection** - Only allows frontend origin
-- **Helmet security** - Security headers
-
-### Cost Structure
-
-- **Reading data**: FREE (RPC calls)
-- **Submitting scores**: Gas fees only (Monad network fees)
-- **Storage**: FREE (onchain storage)
-
-## Integration with Frontend
-
-### Score Submissions
-Update your frontend to submit scores through the backend:
-
-```javascript
-// Secure score submission through backend
-const response = await fetch('/api/submit-score', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
-    playerAddress: userAddress,
-    score: finalScore,
-    transactions: 1
-  })
-});
+Provide comma-separated values (include quotes for tokens like 'self'):
+```env
+CSP_DEFAULT_SRC='self'
+CSP_STYLE_SRC='self','unsafe-inline'
+CSP_SCRIPT_SRC='self','unsafe-inline'
+CSP_SCRIPT_SRC_ELEM='self','unsafe-inline'
+CSP_IMG_SRC='self',data:,https:
+CSP_CONNECT_SRC='self'
 ```
 
-### Player Data Retrieval
-Fetch individual player data:
+**Default allowed origins:**
+- `http://localhost:5173` (Vite dev server)
+- `https://localhost:5173` (Vite dev server HTTPS)
+- `http://localhost:4173` (Vite preview server)
+- `https://localhost:4173` (Vite preview server HTTPS)
 
-```javascript
-// Get player statistics
-const response = await fetch(`/api/player/${userAddress}`);
-const playerData = await response.json();
-// Returns: { gameScore, gameTransactions, totalScore }
-```
+## 📊 Anti-Cheat System
 
-### Leaderboards
-Leaderboards are handled directly by the frontend using the Monad Games API.
+- Score range validation
+- Transaction count verification  
+- Rate limiting per wallet and IP
+- Session duration tracking
+- Suspicious activity logging
+- Configurable thresholds via environment variables
 
-## Development Notes
+## 🚢 Deployment
 
-- The backend focuses solely on secure score submissions
-- Player data is retrieved on-demand from the blockchain
-- Monitor gas costs for score submissions
-- All player tracking is handled by the Monad blockchain contract
+### Recommended Platforms
+- **Railway**: Connect GitHub repo for auto-deployment
+- **Render**: Easy Node.js hosting with environment variables
+- **Heroku**: Classic platform with add-on ecosystem
+- **DigitalOcean App Platform**: Scalable container deployment
+- **AWS/GCP/Azure**: Enterprise-grade cloud deployment
 
-## Contract Information
+### Deployment Checklist
+- ✅ Set all environment variables
+- ✅ Configure production URLs (FRONTEND_URL, etc.)
+- ✅ Set NODE_ENV=production
+- ✅ Ensure wallet has proper blockchain permissions
+- ✅ Configure domain/SSL if using custom domain
 
-- **Contract Address**: `0xceCBFF203C8B6044F52CE23D914A1bfD997541A4`
-- **Network**: Monad Testnet
-- **Explorer**: https://testnet.monadexplorer.com
+## 🧪 Development
 
-## Support
+### Local Development
+1. Ensure you have a test wallet with Monad testnet funds
+2. Configure `.env` with development values
+3. Run `npm run dev` for hot-reload development
+4. Use tools like Postman or curl to test API endpoints
 
-For issues with the leaderboard contract or game registration, contact the Monad team.
+### Adding New Features
+1. Follow Express.js best practices
+2. Add appropriate rate limiting to new endpoints
+3. Implement proper error handling
+4. Update API documentation
+
+## 📄 Documentation
+
+For detailed rate limiting and anti-cheat configuration, see:
+- `RATE_LIMITING.md` - Comprehensive rate limiting guide
+- `.env.example` - All environment variables explained
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under UNLICENSED.
+
+## 👨‍💻 Author
+
+**MEFURY**
+
+---
+
+**Happy Racing! 🏁**
